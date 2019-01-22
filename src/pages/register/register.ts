@@ -7,7 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html'
-})
+})                 
 export class RegisterPage {
  userPic : any = "assets/imgs/frame.png";;
  photo : any;
@@ -29,7 +29,7 @@ export class RegisterPage {
     'confirmpassword' : ''
   };
   response :any;
-                         
+                                   
   constructor(public navCtrl: NavController, public navParams: NavParams, public rest_call: RestProvider, public globals: GlobalsProvider, public db : AngularFireDatabase, private camera: Camera, public actionSheetCtrl:ActionSheetController) {}
 
   doSignup() {
@@ -39,8 +39,8 @@ export class RegisterPage {
 	{
   //  this.globals.showLoader('Registering...');
 	   console.log(this.regData)
-    this.rest_call.user_update(this.regData, 1, this.photo, 0, 0).then((result) => {
-    
+    this.rest_call.user_update(this.regData, 1, this.selectedimage, 0, 0).then((result) => {
+               
 	  console.log(result);
 	//  this.globals.loading.dismiss();
 	 // this.globals.presentToast("User Created Successfully");

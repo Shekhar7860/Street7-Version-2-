@@ -16,8 +16,8 @@ export class RestProvider {
  user: Observable<firebase.User>;
   constructor(public http: HttpClient, private afAuth: AngularFireAuth) {
     console.log('Hello RestProvider Provider');
-  }
-
+  }                       
+     
   /* user manage apis */
   login(credentials) {
      return new Promise((resolve, reject) => {
@@ -35,12 +35,13 @@ export class RestProvider {
     });
   }
   user_update(regData, signup, photo, del, update) {
+    
   console.log(regData);
   console.log('photo', photo)
     return new Promise((resolve, reject) => {
      
-        let headers = new HttpHeaders();
-        // headers.append('Content-Type', 'application/json');
+       let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
         var frm_data = new FormData();
 
         frm_data.append('user_name', regData.user_name);
@@ -51,7 +52,7 @@ export class RestProvider {
         frm_data.append('insert', signup);
         frm_data.append('edit', update);
         frm_data.append('delete', del);
-        frm_data.append('user_profile_picture', photo);
+        frm_data.append('base64_user_profile_pic', photo);
         console.log('userData', frm_data)
         this.http.post(apiUrl+'/user_update.php', frm_data, {headers: headers})
           .subscribe(res => {
@@ -61,7 +62,24 @@ export class RestProvider {
           });
    
     });
+  }                    
+
+  getPosts () {
+    return new Promise((resolve, reject) => {
+      
+      var frm_data = new FormData();
+
+      frm_data.append('post_user_id', '52');
+      frm_data.append('post_category', 'style');
+      this.http.post(apiUrl+'/get_posts.php', frm_data)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+  });
   }
+
   logout(){
     return new Promise((resolve, reject) => {
         let headers = new HttpHeaders();

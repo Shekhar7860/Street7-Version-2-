@@ -14,12 +14,12 @@ import { Instagram } from "ng2-cordova-oauth/core";
 import { TwitterConnect } from '@ionic-native/twitter-connect';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { AngularFireDatabase } from '@angular/fire/database';
-
+               
 @Component({
   selector: 'page-login',    
   templateUrl: 'login.html'
 })            
-export class LoginPage implements OnInit {
+export class LoginPage{
    user: Observable<firebase.User>;
 
   loading: any;
@@ -95,11 +95,12 @@ export class LoginPage implements OnInit {
 	  this.rest_call.validateEmail(this.loginData.user_email);
     this.rest_call.login(this.loginData).then((result) => {
 	if(result){
-			 console.log(result);
+       console.log(result);
+       this.navCtrl.push(TabsPage);
 			//  this.globals.loading.dismiss();
 			//  this.globals.presentToast("Login Successfully");
 			//  this.navCtrl.push(TabsPage)
-	}
+	}                                   
       // this.loading.dismiss();
       // this.response = result;
       // if(this.response.status == 'success'){

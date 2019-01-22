@@ -4,7 +4,7 @@ import { LoginPage } from '../login/login';
 import { AuthServiceProvider } from "../../providers/auth-service/auth-service";
 import { OpenPostPage } from '../open-post/open-post';
 import { GroupsPage } from '../groups/groups';
-           
+import { RestProvider } from '../../providers/rest/rest';        
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -205,7 +205,7 @@ export class HomePage {
   ];
 
   
-  constructor(public app: App, public navCtrl: NavController, public authService: AuthServiceProvider, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+  constructor(public app: App, public rest_call: RestProvider, public navCtrl: NavController, public authService: AuthServiceProvider, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
     // if(!localStorage.getItem("user_id")) {
       // // navCtrl.setRoot(LoginPage);
       // this.app.getRootNav().push(LoginPage);
@@ -216,6 +216,16 @@ export class HomePage {
     // }
                              
   }
+
+  ionViewDidLoad() {
+    this.rest_call.getPosts().then((result) => {
+      console.log(result);
+      this.posts = result.data;
+      }, (err) => {
+      console.log(err);
+      //  this.globals.loading.dismiss();
+      });
+  }                     
   logout() {
     this.showLoader();
     this.authService.logout().then((result) => {
@@ -233,9 +243,9 @@ export class HomePage {
     this.loading = this.loadingCtrl.create({
         content: 'Authenticating...'
     });
-
     this.loading.present();
   }
+
 
   presentToast(msg) {
     let toast = this.toastCtrl.create({

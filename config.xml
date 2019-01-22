@@ -118,5 +118,6 @@
         <variable name="SENDER_ID" value="454166531047" />
         <variable name="FCM_VERSION" value="11.6.2" />
     </plugin>
-    <engine name="android" spec="^7.0.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <engine name="android" spec="^7.1.4" />
 </widget>

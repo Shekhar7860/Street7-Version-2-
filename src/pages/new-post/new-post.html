@@ -1,15 +1,13 @@
 <ion-header no-border>
   <ion-navbar>
     <ion-title>NEW POST</ion-title>
-    <ion-buttons end ion-button round clear class="btn-edit-profile">
-      SHARE
-    </ion-buttons>
+    <button class="btn-my-groups" ion-button clear tappable end (click)="uploadPhoto()"> Upload </button>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-grid>
     <ion-row class="row-more-media-title">
-      <ion-col class="col-more-media-title" (click)="takePhoto()">
+      <ion-col class="col-more-media-title" (click)="takePhoto2()">
         <ion-icon name="md-camera"></ion-icon>
         <ion-label class="lbl-photos-videos">Photos and Videos</ion-label>
       </ion-col>
@@ -19,11 +17,19 @@
         </ion-buttons>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!-- <ion-row>
       <ion-col col-4 col-md-4 col-xl-3 *ngFor="let post of posts">
         <div class="post-container">
           <img class="article-img" no-margin no-padding [src]="post.post_image">
         </div>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col col-6 *ngFor="let photo of photos; let id = index">
+        <ion-card class="block">
+          <ion-icon name="trash" class="deleteIcon" (click)="deletePhoto(id)"></ion-icon>
+          <img [src]="photo" *ngIf="photo" />
+        </ion-card>
       </ion-col>
     </ion-row>
     <form (submit)="createNewPost()">
@@ -58,10 +64,10 @@
       </ion-col>
     </ion-row>
 
-    <!-- Co-Creators -->
+   
     <ion-row>
       <ion-col>
-        <!-- Add Co Creaters line -->
+
         <ion-scroll class="story" scrollX="true">
           <div class="story_scroll" *ngFor="let cc of co_creators">
             <div class="story_img_bg">

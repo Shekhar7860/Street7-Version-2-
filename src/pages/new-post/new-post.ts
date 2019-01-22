@@ -2,27 +2,37 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera'; 
 import { GlobalsProvider } from '../../providers/globals/globals';
+import { RestProvider } from '../../providers/rest/rest';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 /**
  * Generated class for the NewPostPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+                   
 @Component({
   selector: 'page-new-post',
   templateUrl: 'new-post.html',
-})
+})                   
 export class NewPostPage {
-const options: CameraOptions = {
-  quality: 100,
-  PictureSourceType : this.camera.PictureSourceType.PHOTOLIBRARY,
-  destinationType: this.camera.DestinationType.FILE_URI,
-  encodingType: this.camera.EncodingType.JPEG,
-  mediaType: this.camera.MediaType.PICTURE
-}
+  base64Image : any;
+  imageFileName : any;
+  base64Video  : any;
+  mediaFiles = [];
+  loader: any;
+videoId: any;
+selectedimage : any;
+Video : any;
+flag_upload = true;
+flag_play = true;
+public photos: any = [];
+public base64Image2: string;
+public fileImage: string;
+public responseData: any;
+public photo : any;
   public posts = [
-    {
+    {               
       id: 1,
       post_image: 'https://source.unsplash.com/160x150',
       post_title: 'For You'
@@ -139,9 +149,9 @@ const options: CameraOptions = {
       category_name: 'Property'
     }
   ];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera, public actionSheetCtrl:ActionSheetController,  public globals: GlobalsProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private transfer: FileTransfer,  private camera: Camera, public actionSheetCtrl:ActionSheetController,  public globals: GlobalsProvider) {
   }
-
+              
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewPostPage');
   }
@@ -205,7 +215,33 @@ const options: CameraOptions = {
      });
      actionSheet.present();
   }
-
+                     
+  uploadPhoto () {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    console.log(this.photos)
+    for (var i=0; i<this.photos.length ; i++)
+    {
+      var filename = 'post_media' ;
+    let options: FileUploadOptions = {
+      fileKey: filename,
+      fileName: filename,
+      chunkedMode: false,
+      mimeType: "image/jpeg",
+      headers: {},
+      params : {"post_user_id":52, "insert" :1, "post_category" : 'style', "post_title":'hi', "post_description" :"testIt", }
+    }
+   
+      console.log('photos', this.photos[i])
+     fileTransfer.upload(this.photos[i], 'http://demo.aarvitechnolabs.com/street7-api/api/post_update.php', options)
+      .then((data) => {
+      console.log(JSON.stringify(data) +" Uploaded Successfully");
+      this.imageFileName = "http://cashmann.co.uk/shekhar/upload/ionicfile"
+    }, (err) => {   
+      console.log(err);
+    });
+  }
+  }
+                 
   b64toBlob(b64Data:any, contentType:any) {
          contentType = contentType || '';
          let   sliceSize = 512*10;
@@ -225,5 +261,31 @@ const options: CameraOptions = {
     //blob.style.height = "300px";
     //blob.style.width = "300px";
          return blob;
+  }
+
+  takePhoto2() {
+    console.log("coming here");
+
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 450,
+      targetHeight: 450,
+      saveToPhotoAlbum: false
+    };
+
+    this.camera.getPicture(options).then(
+      imageData => {
+        this.base64Image2 = "data:image/jpeg;base64," + imageData;
+        this.photos.push(this.base64Image2);
+        this.photos.reverse();
+                               
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

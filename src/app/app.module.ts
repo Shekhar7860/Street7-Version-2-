@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
 import { MyApp } from './app.component';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -37,6 +38,7 @@ import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { InviteToStreet7Page } from '../pages/invite-to-street7/invite-to-street7';
 import { RestProvider } from '../providers/rest/rest';
 import { GlobalsProvider } from '../providers/globals/globals';
+                
 
 const firebaseConfig = {
     apiKey: "AIzaSyCzJL6qhSQYE6OSRlOuZW77j4cruxUFQRs",
@@ -45,7 +47,7 @@ const firebaseConfig = {
     projectId: "ionic2-8b379",
     storageBucket: "ionic2-8b379.appspot.com",
     messagingSenderId: "454166531047"
-}
+}                      
 
 @NgModule({
   declarations: [
@@ -113,7 +115,8 @@ const firebaseConfig = {
     TwitterConnect,
     Camera,
     InAppBrowser,  
-    Push
+    Push,
+    FileTransfer
   ]
 })
 export class AppModule { }
